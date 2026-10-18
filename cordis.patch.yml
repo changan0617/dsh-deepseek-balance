@@ -1,0 +1,19 @@
+# dsh-deepseek-balance bundle patch
+#
+# Installing the package with
+#
+#   dsh plugin --profile web add github:changan0617/dsh-deepseek-balance
+#
+# appends `dsh-deepseek-balance` to the profile's bundle stack and merges this
+# single `insert` row, so no manual edit of the profile's cordis.patch.yml is
+# needed. Remove with
+#
+#   dsh plugin --profile web remove dsh-deepseek-balance
+#
+# The double-mount guard backs this row out when the same package is already
+# mounted by another entry (an aggregate bundle, or a leftover manual mount
+# line in the profile's own cordis.patch.yml).
+- insert:
+    - id: deepseek-balance
+      name: 'dsh-deepseek-balance'
+      disabled: !!js "[...ctx.loader.entries()].some((e) => e.options.name === 'dsh-deepseek-balance' && e.options.id !== 'deepseek-balance' && !e.disabled)"
